@@ -108,7 +108,7 @@ class IdrisModel
         Rx.Observable.of dir
 
     cd.flatMap (_) =>
-      @prepareCommand [':load-file', uri]
+      @prepareCommand [':load-file', path.relative(dir,uri)]
 
   docsFor: (word) ->
     @prepareCommand [':docs-for', word]
