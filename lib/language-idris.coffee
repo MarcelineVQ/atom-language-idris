@@ -8,7 +8,7 @@ module.exports =
     pathToIdris:
       title: 'Idris Location'
       type: 'string'
-      default: 'idris'
+      default: 'idris2'
       description: 'Location of the Idris executable (e.g. /usr/local/bin/idris)'
     panelFontFamily:
       type: 'string'
