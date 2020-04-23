@@ -260,7 +260,9 @@ class IdrisController
           @hideAndClearMessagePanel()
 
           editor.transact ->
-            editorHelper.moveToNextEmptyLine editor
+            # move to the next line that doesn't start with
+            # whitespace
+            editorHelper.moveToNextNonWhiteSpaceLine editor
 
             # Insert the new clause
             editor.insertText clause

@@ -1,3 +1,18 @@
+isLineNonEmptyWithWS = (editor) ->
+  # save the current buffer range, so that we can
+  # reset the state in the end
+  bufferRange = editor.getSelectedBufferRange()
+
+  editor.moveToBeginningOfLine()
+  editor.selectToEndOfLine()
+  selectedText = editor.getSelectedText()
+
+  # reset the selection to what it was before calling
+  # this function
+  editor.setSelectedBufferRange bufferRange
+
+  (selectedText.charAt(0).trim() == '') && (selectedText.trim() != '')
+
 isCurrentLineEmpty = (editor) ->
   # save the current buffer range, so that we can
   # reset the state in the end
@@ -27,6 +42,17 @@ moveToNextEmptyLine = (editor) ->
 
   editor.moveToBeginningOfLine()
 
+moveToNextNonWhiteSpaceLine = (editor) ->
+  if !isCurrentLineEmpty(editor)
+    editor.moveDown()
+  while isLineNonEmptyWithWS(editor) && !isCurrentLineLastOfFile(editor)
+    editor.moveDown()
+
+  if !isCurrentLineEmpty(editor)
+    editor.insertNewlineAbove()
+
+  editor.moveToBeginningOfLine()
+
 # the REGEXP to define what constitutes a word
 options =
   wordRegex: /(^[	 ]*$|[^\s\/\\\(\)":,\.;<>~!@#\$%\^&\*\|\+=\[\]\{\}`\?\-…]+)|(\?[-!#\$%&\*\+\.\/<=>@\\\^\|~:]+|[-!#\$%&\*\+\.\/<=>@\\\^\|~:][-!#\$%&\*\+\.\/<=>@\\\^\|~:\?]*)+/g
@@ -39,4 +65,5 @@ getWordUnderCursor = (editor) ->
 module.exports =
   isCurrentLineEmpty: isCurrentLineEmpty
   moveToNextEmptyLine: moveToNextEmptyLine
+  moveToNextNonWhiteSpaceLine: moveToNextNonWhiteSpaceLine
   getWordUnderCursor: getWordUnderCursor
