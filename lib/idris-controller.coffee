@@ -232,7 +232,7 @@ class IdrisController
             @clearMessagePanel 'Idris: Cannot split ' + word
           else
             @hideAndClearMessagePanel()
-            lineRange = cursor.getCurrentLineBufferRange(includeNewline: true)
+            lineRange = cursor.getCurrentLineBufferRange(includeNewline: false)
             editor.setTextInBufferRange lineRange, split
 
         @model
