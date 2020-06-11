@@ -92,6 +92,7 @@ class IdrisModel
   changeDirectory: (dir) ->
     @interpret ":cd #{dir}"
 
+  # after a load the cwd changes if there's an ipkg
   load: (uri) ->
     dir =
       if @compilerOptions.src
@@ -100,18 +101,23 @@ class IdrisModel
         path.dirname uri
 
     cd =
-      if dir != @compilerOptions.src
+      # if dir != @compilerOptions.src
         # @compilerOptions.src = dir
-        # @changeDirectory dir
-          # .map (_) -> dir
         
-        # don't need to change dir in current idris2
-        Rx.Observable.of dir
-      else
-        Rx.Observable.of dir
+        # idris resets the dir when you have an ipkg
+        @changeDirectory dir
+        
+          # .map (_) -> dir
+        # Rx.Observable.of dir
+      # else
+        # Rx.Observable.of dir
 
     cd.flatMap (_) =>
-      @prepareCommand [':load-file', path.relative(dir,uri)]
+      # console.log(dir)
+      # console.log(uri)
+      # console.log(path.relative(dir,uri))
+      @prepareCommand [':load-file',  path.relative(dir,uri)]
+      # @prepareCommand [':load-file', path.relative(dir,uri)]
 
   docsFor: (word) ->
     @prepareCommand [':docs-for', word]
