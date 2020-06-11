@@ -101,9 +101,12 @@ class IdrisModel
 
     cd =
       if dir != @compilerOptions.src
-        @compilerOptions.src = dir
-        @changeDirectory dir
-          .map (_) -> dir
+        # @compilerOptions.src = dir
+        # @changeDirectory dir
+          # .map (_) -> dir
+        
+        # don't need to change dir in current idris2
+        Rx.Observable.of dir
       else
         Rx.Observable.of dir
 
