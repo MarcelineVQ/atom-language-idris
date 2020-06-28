@@ -43,14 +43,16 @@ moveToNextEmptyLine = (editor) ->
   editor.moveToBeginningOfLine()
 
 moveToNextNonWhiteSpaceLine = (editor) ->
-  if !isCurrentLineEmpty(editor)
-    editor.moveDown()
   while isLineNonEmptyWithWS(editor) && !isCurrentLineLastOfFile(editor)
     editor.moveDown()
+  editor.moveDown()
+
+  if isCurrentLineLastOfFile(editor)
+    editor.insertNewlineBelow()
 
   if !isCurrentLineEmpty(editor)
     editor.insertNewlineAbove()
-
+  
   editor.moveToBeginningOfLine()
 
 # the REGEXP to define what constitutes a word
@@ -63,6 +65,7 @@ getWordUnderCursor = (editor) ->
   editor.getTextInBufferRange range
 
 module.exports =
+  isCurrentLineLastOfFile: isCurrentLineLastOfFile
   isCurrentLineEmpty: isCurrentLineEmpty
   moveToNextEmptyLine: moveToNextEmptyLine
   moveToNextNonWhiteSpaceLine: moveToNextNonWhiteSpaceLine

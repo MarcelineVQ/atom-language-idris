@@ -261,17 +261,11 @@ class IdrisController
 
           editor.transact ->
             # move to the next line that doesn't start with
-            # whitespace
+            # whitespace and make it work for insertion
             editorHelper.moveToNextNonWhiteSpaceLine editor
 
             # Insert the new clause
             editor.insertText clause
-
-            # And move the cursor to the beginning of
-            # the new line and add an empty line below it
-            editor.insertNewlineBelow()
-            editor.moveUp()
-            editor.moveToBeginningOfLine()
 
         @model
           .load uri
@@ -331,6 +325,11 @@ class IdrisController
           editor.transact ->
             # Delete old line, insert the new with block
             editor.deleteLine()
+            if editorHelper.isCurrentLineLastOfFile(editor)
+              editor.insertNewlineBelow()
+            else
+              editor.insertNewlineAbove()
+            editor.moveToBeginningOfLine()
             editor.insertText clause
             # And move the cursor to the beginning of
             # the new line
