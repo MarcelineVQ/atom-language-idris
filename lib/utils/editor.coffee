@@ -47,10 +47,9 @@ moveToNextNonWhiteSpaceLine = (editor) ->
     editor.moveDown()
   editor.moveDown()
 
-  if isCurrentLineLastOfFile(editor)
+  if isCurrentLineLastOfFile(editor) && !isCurrentLineEmpty(editor)
     editor.insertNewlineBelow()
-
-  if !isCurrentLineEmpty(editor)
+  else
     editor.insertNewlineAbove()
   
   editor.moveToBeginningOfLine()
