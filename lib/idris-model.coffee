@@ -149,6 +149,12 @@ class IdrisModel
   addProofClause: (line, word) ->
     @prepareCommand [':add-proof-clause', line, word]
 
+  generateDef: (line, word) ->
+    @prepareCommand [':generate-def', line, word]
+
+  generateDefNext: ->
+    @prepareCommand ':generate-def-next'
+
   holes: (width) ->
     @prepareCommand [':metavariables', width]
 

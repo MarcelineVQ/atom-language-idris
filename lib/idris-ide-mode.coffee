@@ -52,7 +52,9 @@ class IdrisIdeMode extends EventEmitter
 
   send: (cmd) ->
     Logger.logOutgoingCommand cmd
+    console.log cmd
     @process.stdin.write sexpFormatter.serialize(cmd)
+    console.log sexpFormatter.serialize(cmd)
 
   stop: ->
     @process?.kill()
@@ -96,11 +98,13 @@ class IdrisIdeMode extends EventEmitter
         # let's read in the command
         cmd = @buffer.substr(6, len).trim()
         Logger.logIncomingCommand cmd
+        console.log cmd
         # Remove the length + command from the buffer
         @buffer = @buffer.substr(6 + len)
         # And then we can try to parse to command..
         obj = parse.parse(cmd.trim())
         @emit 'message', obj
+        console.log obj
       else
         # We didn't have the entire command, so let's break the
         # while-loop and wait for the next data-event

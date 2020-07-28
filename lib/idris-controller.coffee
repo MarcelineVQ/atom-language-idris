@@ -20,6 +20,7 @@ class IdrisController
     'language-idris:make-with': @runCommand @doMakeWith
     'language-idris:make-lemma': @runCommand @doMakeLemma
     'language-idris:make-case': @runCommand @doMakeCase
+    'language-idris:generate-def': @runCommand @doGenerateDef
     'language-idris:holes': @runCommand @showHoles
     'language-idris:proof-search': @runCommand @doProofSearch
     'language-idris:typecheck': @runCommand @typecheckFile
@@ -432,6 +433,52 @@ class IdrisController
           .filter ({ responseType }) -> responseType == 'return'
           .flatMap => @model.makeCase line + 1, word
           .subscribe successHandler, @displayErrors
+
+  # generate a definition for a function
+  doGenerateDef: ({ target }) =>
+    editor = @getEditor()
+    @saveFile editor
+      .then =>
+        uri = editor.getURI()
+        line = editor.getLastCursor().getBufferRow()
+        # by adding a clause we make sure that the word is
+        # not treated as a symbol
+        word = ' ' + editorHelper.getWordUnderCursor editor
+
+        @clearMessagePanel 'Idris: Generate definition ...'
+
+        successHandler =  ({ responseType, msg }) =>
+          [clause] = @prefixLiterateClause msg
+
+          @hideAndClearMessagePanel()
+
+          pos = editor.getCursorScreenPosition()
+          editor.transact ->
+            # move to the next line that doesn't start with
+            # whitespace and make it work for insertion
+            editorHelper.moveToNextNonWhiteSpaceLine editor
+
+            # Insert the new clause
+            editor.insertText clause
+          editor.setCursorScreenPosition(pos)
+        handle = (err) =>
+          if err.message == "Already defined"
+            editor.undo()
+            @model
+            .generateDefNext()
+            .subscribe successHandler, @displayErrors
+          else
+            @displayErrors err
+        @model
+          .load uri
+          .filter ({ responseType }) -> responseType == 'return'
+          .flatMap => @model.generateDef line + 1, word
+          .subscribe successHandler, handle
+        # get error, if exists error, undo and next
+
+
+
+
 
   # show all holes in the current file
   showHoles: ({ target }) =>
