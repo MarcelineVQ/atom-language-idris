@@ -1,6 +1,6 @@
 
 # This is specifically an idris2 compatability branch.
-
+======================================================
 
 # An Idris Mode for Atom
 

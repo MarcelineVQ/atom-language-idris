@@ -89,7 +89,7 @@ class IdrisController
   rawMessage: (text) ->
     @messages.add new PlainMessageView
       raw: true
-      message: '<pre>' + text + '</pre>'
+      message: '<pre style="white-space: pre-wrap;">' + text + '</pre>'
       className: 'preview'
 
   initialize: (compilerOptions) ->
