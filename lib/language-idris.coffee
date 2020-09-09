@@ -44,6 +44,6 @@ module.exports =
     @subscriptions.dispose()
     this.controller.destroy()
 
-  provide: ->
-    console.log "Provider"
-    @controller.provideReplCompletions()
+  # provide: ->
+  #   console.log "Provider"
+  #   @controller.provideReplCompletions()
