@@ -95,3 +95,13 @@
 
         fa <|> fb = ?holeAlternative
       """
+  'Range implementation':
+    'prefix': 'Range'
+    'body': """
+      Range ${1:Type} where
+        rangeFromTo x y = ?rangeFromToRhs
+        rangeFromThenTo x y z = ?rangeFromThenToRhs
+
+        rangeFrom x = ?rangeFromRhs
+        rangeFromThen x y = ?rangeFromThenRhs
+      """
