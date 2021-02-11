@@ -197,6 +197,10 @@ class IdrisController
         uri = editor.getURI()
         word = Symbol.serializeWord editorHelper.getWordUnderCursor(editor)
 
+        cursor = editor.getLastCursor()
+        row = cursor.getBufferRow() + 1
+        column = cursor.getBufferColumn() + 1
+
         @clearMessagePanel 'Idris: Searching type of <tt>' + word + '</tt> ...'
 
         successHandler = ({ responseType, msg }) =>
@@ -206,13 +210,14 @@ class IdrisController
           informationView = new InformationView
           informationView.initialize
             obligation: type
-            highlightingInfo: highlightingInfo
+            highlightingInfo: []
+            # highlightingInfo: highlightingInfo
           @messages.add informationView
 
         @model
           .load uri
           .filter ({ responseType }) -> responseType == 'return'
-          .flatMap => @model.getType word
+          .flatMap => @model.getType word, row, column
           .subscribe successHandler, @displayErrors
 
   doCaseSplit: ({ target }) =>

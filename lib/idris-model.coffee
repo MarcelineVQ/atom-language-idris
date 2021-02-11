@@ -125,8 +125,8 @@ class IdrisModel
   replCompletions: (word) ->
       @prepareCommand [':repl-completions', word]
 
-  getType: (word) ->
-    @prepareCommand [':type-of', word]
+  getType: (word,row,col) ->
+    @prepareCommand [':type-of', word, row, col]
 
   caseSplit: (line, word) ->
     @prepareCommand [':case-split', line, word]

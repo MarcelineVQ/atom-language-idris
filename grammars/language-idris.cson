@@ -5,7 +5,7 @@ patterns:
   [
     {
       name: 'keyword.control.idris'
-      match: '\\b(if|then|else|do|let|in|codata|record|dsl)\\b'
+      match: '\\b(if|then|else|do|let|in|record)\\b'
     }
     {
       name: 'keyword.control.idris'
@@ -13,11 +13,11 @@ patterns:
     }
     {
       name: 'keyword.control.idris'
-      match: '\\b(where|with|syntax|proof|postulate|using|namespace|class|instance|interface|implementation|record|rewrite)\\b'
+      match: '\\b(where|with|using|namespace|interface|implementation|record|rewrite)\\b'
     }
     {
       name: 'keyword.control.idris'
-      match:  '\\b(public|private|export|implicit)\\b'
+      match:  '\\b(public|private|export)\\b'
     }
     {
       name: 'comment.line.idris'
@@ -35,14 +35,14 @@ patterns:
     }
     {
       name: 'storage.type.builtin.idris'
-      match: '\\b(Type|Int|Nat|Integer|Float|Char|String|Ptr|Bits8|Bits16|Bits32|Bits64|Bool)\\b'
+      match: '\\b(Type|Int|Integer|Double|Char|String|Ptr|AnyPtr|Bits8|Bits16|Bits32|Bits64)\\b'
     }
     {
       name: 'constant.numeric.idris'
       match: '\\b(S|Z)\\b'
     }
     {
-      match: '\\b([0-9]+|0([xX][0-9a-fA-F]+|[oO][0-7]+))\\b'
+      match: '\\b([0-9]+|0([xX][0-9a-fA-F]+|[o][0-7]+|[b][0-7]+))\\b'
       name: 'constant.numeric.idris'
       comment: 'integer literal'
     }
@@ -335,10 +335,10 @@ repository:
           name: 'constant.language.unit.idris'
           match: "\\(\\)"
         }
-        {
-          name: 'constant.language.bottom.idris'
-          match: "_\\|_"
-        }
+        # {
+        #   name: 'constant.language.bottom.idris'
+        #   match: "_\\|_"
+        # }
         {
           name: 'constant.language.underscore.idris'
           match: "\\b_\\b"
