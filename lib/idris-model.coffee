@@ -90,7 +90,7 @@ class IdrisModel
     subject
 
   changeDirectory: (dir) ->
-    @interpret ":cd #{dir}"
+    @interpret ":cd \\\"#{dir}\\\""
 
   # after a load the cwd changes if there's an ipkg
   load: (uri) ->
@@ -125,8 +125,8 @@ class IdrisModel
   replCompletions: (word) ->
       @prepareCommand [':repl-completions', word]
 
-  getType: (word,row,col) ->
-    @prepareCommand [':type-of', word, row, col]
+  getType: (word,col,row) ->
+    @prepareCommand [':type-of', word, col, row]
 
   caseSplit: (line, word) ->
     @prepareCommand [':case-split', line, word]

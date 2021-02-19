@@ -196,10 +196,12 @@ class IdrisController
       .then =>
         uri = editor.getURI()
         word = Symbol.serializeWord editorHelper.getWordUnderCursor(editor)
-
+        indentation = 
         cursor = editor.getLastCursor()
         row = cursor.getBufferRow() + 1
-        column = cursor.getBufferColumn() + 1
+        line = cursor.getBufferColumn()
+        column = line - editor.indentLevelForLine(line)
+        console.log column
 
         @clearMessagePanel 'Idris: Searching type of <tt>' + word + '</tt> ...'
 
@@ -217,7 +219,7 @@ class IdrisController
         @model
           .load uri
           .filter ({ responseType }) -> responseType == 'return'
-          .flatMap => @model.getType word, row, column
+          .flatMap => @model.getType word, column, row
           .subscribe successHandler, @displayErrors
 
   doCaseSplit: ({ target }) =>
